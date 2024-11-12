@@ -1,6 +1,9 @@
+import 'package:doctorna/core/helpers/extension.dart';
+import 'package:doctorna/core/helpers/spacing_helper.dart';
+import 'package:doctorna/core/routing/routes.dart';
 import 'package:doctorna/core/theme/fonts.dart';
+import 'package:doctorna/core/widget/btn_widget.dart';
 import 'package:doctorna/features/onboarding/ui/widget/body_widget.dart';
-import 'package:doctorna/features/onboarding/ui/widget/get_started_btn_widget.dart';
 import 'package:doctorna/features/onboarding/ui/widget/header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,13 +23,9 @@ class OnboardingScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const BuildHeader(),
-                SizedBox(
-                  height: 30.0.h,
-                ),
+                verticalSpace(30),
                 const BuildBody(),
-                SizedBox(
-                  height: 18.0.h,
-                ),
+                verticalSpace(18),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                   child: Column(
@@ -36,10 +35,13 @@ class OnboardingScreen extends StatelessWidget {
                         style: TextStyles.font13subTextColorRegular,
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(
-                        height: 30.0.h,
+                      verticalSpace(30),
+                      BtnWidget(
+                        label: 'Get Started',
+                        onPressed: () {
+                          context.pushNamed(Routes.loginScreen);
+                        },
                       ),
-                      const GetStartedBtnWidget()
                     ],
                   ),
                 )
