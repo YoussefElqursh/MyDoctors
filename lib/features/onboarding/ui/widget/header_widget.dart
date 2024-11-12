@@ -1,3 +1,4 @@
+import 'package:doctorna/core/helpers/spacing_helper.dart';
 import 'package:doctorna/core/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,10 +16,10 @@ class BuildHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgPicture.asset('assets/svg/logo.svg'),
-        SizedBox(width: 10.w),
+        horizontalSpace(10),
         Text(
           'Docdoc',
-          style: TextStyles.font24TextColor700Wight,
+          style: TextStyles.font24TextColorBold,
         ),
       ],
     );
