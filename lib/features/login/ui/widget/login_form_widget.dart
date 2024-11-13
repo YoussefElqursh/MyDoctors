@@ -5,7 +5,10 @@ import 'package:doctorna/core/theme/colors.dart';
 import 'package:doctorna/core/theme/fonts.dart';
 import 'package:doctorna/core/widget/btn_widget.dart';
 import 'package:doctorna/core/widget/text_form_field_widget.dart';
+import 'package:doctorna/features/login/logic/login_cubit.dart';
+import 'package:doctorna/features/login/ui/widget/password_validations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginFormWidget extends StatefulWidget {
   const LoginFormWidget({super.key});
@@ -15,31 +18,54 @@ class LoginFormWidget extends StatefulWidget {
 }
 
 class _LoginFormWidgetState extends State<LoginFormWidget> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
   bool isObscureText = true;
+  bool hasLowerCase = false;
+  bool hasUpperCase = false;
+  bool hasSpecialCharacters = false;
+  bool hasNumbers = false;
+  bool hasMinLength = false;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = context.read<LoginCubit>().emailController;
+    passwordController = context.read<LoginCubit>().passwordController;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: context.read<LoginCubit>().formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TextFormFieldWidget(
-            controller: emailController,
+            controller: context.read<LoginCubit>().emailController,
             hintText: 'Email',
             keyboardType: TextInputType.emailAddress,
             obscureText: false,
+            validator: (value){
+              if(value == null || value.isEmpty){
+                return 'Please, Enter a valid Email';
+              }
+              return null;
+            },
           ),
           verticalSpace(20),
           TextFormFieldWidget(
-            controller: passwordController,
+            controller: context.read<LoginCubit>().passwordController,
             hintText: 'Password',
             keyboardType: TextInputType.visiblePassword,
             obscureText: isObscureText,
+            validator: (value){
+              if(value == null || value.isEmpty){
+                return 'Please, Enter a valid Password';
+              }
+              return null;
+            },
             suffixIcon: GestureDetector(
               onTap: (){
                 setState(() {
@@ -51,6 +77,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               ),
             ),
           ),
+          verticalSpace(7),
+          PasswordValidations(hasLowerCase: hasLowerCase, hasUpperCase: hasUpperCase, hasSpecialCharacters: hasSpecialCharacters, hasNumbers: hasNumbers, hasMinLength: hasMinLength,),
           verticalSpace(7),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,44 +118,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             onPressed: () => context.pushNamed(Routes.loginScreen),
             label: 'Login',
           ),
-          verticalSpace(35),
-          Text.rich(
-            textAlign: TextAlign.center,
-            TextSpan(
-              text: 'By logging, you agree to our',
-              style: TextStyles.font14subTextColorRegular.copyWith(fontSize: 12),
-              children: [
-                TextSpan(
-                    text: ' Terms & Conditions ',
-                    style: TextStyles.font14TextColorMedium),
-                TextSpan(text: 'and'),
-                TextSpan(
-                    text: ' PrivacyPolicy',
-                    style: TextStyles.font14TextColorMedium),
-                TextSpan(text: '.'),
-              ],
-            ),
-          ),
-          verticalSpace(25),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Already have an account yet?',
-                style: TextStyles.font12GrayColorRegular
-                    .copyWith(color: AppColors.textColor, fontSize: 11),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Signup',
-                  style: TextStyles.font16whiteColorSemiBold
-                      .copyWith(color: AppColors.primaryColor),
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );

@@ -1,7 +1,10 @@
+import 'package:doctorna/core/di/dependancy_injection.dart';
 import 'package:doctorna/core/routing/routes.dart';
+import 'package:doctorna/features/login/logic/login_cubit.dart';
 import 'package:doctorna/features/login/ui/screen/login_screen.dart';
 import 'package:doctorna/features/onboarding/ui/screen/onboarding_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter{
   Route generateRoute(RouteSettings settings){
@@ -12,7 +15,10 @@ class AppRouter{
         );
       case Routes.loginScreen:
         return MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => getIt<LoginCubit>(),
+            child: const LoginScreen(),
+          ),
         );
       default:
         return MaterialPageRoute(

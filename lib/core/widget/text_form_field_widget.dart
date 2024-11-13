@@ -60,6 +60,20 @@ class TextFormFieldWidget extends StatelessWidget {
             width: 1.3,
           ),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          borderSide: BorderSide(
+            color: Colors.red,
+            width: 1.3,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          borderSide: BorderSide(
+            color: Colors.red,
+            width: 1.3,
+          ),
+        ),
       ),
     );
   }
