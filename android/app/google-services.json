@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700524598035",
+    "project_id": "mydoctor-96024",
+    "storage_bucket": "mydoctor-96024.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700524598035:android:6c4b750f888f402271c0e6",
+        "android_client_info": {
+          "package_name": "com.KMY.doctorna"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvlvaKKiFLec5T7vBALE4GFcIBXFSbEOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
