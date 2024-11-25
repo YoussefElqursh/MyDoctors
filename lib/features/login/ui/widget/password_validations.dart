@@ -17,7 +17,8 @@ class PasswordValidations extends StatelessWidget {
       required this.hasUpperCase,
       required this.hasSpecialCharacters,
       required this.hasNumbers,
-      required this.hasMinLength});
+      required this.hasMinLength,
+      });
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,9 @@
+import 'package:doctorna/core/helpers/extension.dart';
 import 'package:doctorna/core/helpers/spacing_helper.dart';
+import 'package:doctorna/core/routing/routes.dart';
 import 'package:doctorna/core/theme/colors.dart';
 import 'package:doctorna/core/theme/fonts.dart';
+import 'package:doctorna/features/login/ui/widget/login_bloc_listener.dart';
 import 'package:doctorna/features/login/ui/widget/login_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,7 +57,9 @@ class LoginScreen extends StatelessWidget {
                           .copyWith(color: AppColors.textColor, fontSize: 11),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pushNamed(Routes.signupScreen);
+                      },
                       child: Text(
                         'Signup',
                         style: TextStyles.font16whiteColorSemiBold
@@ -62,7 +67,8 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
+                const LoginBlocListener(),
               ],
             ),
           ),

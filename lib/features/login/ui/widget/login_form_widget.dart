@@ -1,10 +1,10 @@
-import 'package:doctorna/core/helpers/extension.dart';
+import 'package:doctorna/core/helpers/app_regex.dart';
 import 'package:doctorna/core/helpers/spacing_helper.dart';
-import 'package:doctorna/core/routing/routes.dart';
 import 'package:doctorna/core/theme/colors.dart';
 import 'package:doctorna/core/theme/fonts.dart';
 import 'package:doctorna/core/widget/btn_widget.dart';
 import 'package:doctorna/core/widget/text_form_field_widget.dart';
+import 'package:doctorna/features/login/data/models/login_request_body.dart';
 import 'package:doctorna/features/login/logic/login_cubit.dart';
 import 'package:doctorna/features/login/ui/widget/password_validations.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     super.initState();
     emailController = context.read<LoginCubit>().emailController;
     passwordController = context.read<LoginCubit>().passwordController;
+    setupPasswordValidation();
   }
 
   @override
@@ -47,8 +48,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             hintText: 'Email',
             keyboardType: TextInputType.emailAddress,
             obscureText: false,
-            validator: (value){
-              if(value == null || value.isEmpty){
+            validator: (value) {
+              if (value == null || value.isEmpty || !AppRegex.isEmailValid(value)) {
                 return 'Please, Enter a valid Email';
               }
               return null;
@@ -60,25 +61,32 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             hintText: 'Password',
             keyboardType: TextInputType.visiblePassword,
             obscureText: isObscureText,
-            validator: (value){
-              if(value == null || value.isEmpty){
+            validator: (value) {
+              if (value == null || value.isEmpty) {
                 return 'Please, Enter a valid Password';
               }
               return null;
             },
             suffixIcon: GestureDetector(
-              onTap: (){
+              onTap: () {
                 setState(() {
                   isObscureText = !isObscureText;
                 });
               },
               child: Icon(
-                isObscureText ? Icons.visibility_off : Icons.visibility, size: 24,
+                isObscureText ? Icons.visibility_off : Icons.visibility,
+                size: 24,
               ),
             ),
           ),
           verticalSpace(7),
-          PasswordValidations(hasLowerCase: hasLowerCase, hasUpperCase: hasUpperCase, hasSpecialCharacters: hasSpecialCharacters, hasNumbers: hasNumbers, hasMinLength: hasMinLength,),
+          PasswordValidations(
+            hasLowerCase: hasLowerCase,
+            hasUpperCase: hasUpperCase,
+            hasSpecialCharacters: hasSpecialCharacters,
+            hasNumbers: hasNumbers,
+            hasMinLength: hasMinLength,
+          ),
           verticalSpace(7),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,11 +123,38 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           ),
           verticalSpace(35),
           BtnWidget(
-            onPressed: () => context.pushNamed(Routes.loginScreen),
+            onPressed: () => validateToLogin(context),
             label: 'Login',
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void validateToLogin(BuildContext context) {
+    if (context.read<LoginCubit>().formKey.currentState!.validate()) {
+      context.read<LoginCubit>().emitLoginState();
+    }
+  }
+
+  void setupPasswordValidation() {
+    passwordController.addListener(
+      () {
+        setState(() {
+          hasLowerCase = AppRegex.hasLowerCase(passwordController.text);
+          hasUpperCase = AppRegex.hasUpperCase(passwordController.text);
+          hasNumbers = AppRegex.hasNumber(passwordController.text);
+          hasSpecialCharacters = AppRegex.hasSpecialCharacter(passwordController.text);
+          hasMinLength = AppRegex.hasMinLength(passwordController.text);
+        });
+      },
     );
   }
 }
