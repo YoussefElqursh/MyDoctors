@@ -23,15 +23,6 @@ jobs:
         with:
           channel: stable
 
-      - name: Install Bundler
-        run: gem install bundler
-
-      - name: Install dependencies
-        run: bundle install --jobs 4
-
-      - name: Add Linux platform
-        run: bundle lock --add-platform x86_64-linux
-
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
