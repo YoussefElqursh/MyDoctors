@@ -6,13 +6,13 @@ platform :android do
     sh "flutter clean"
     sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"
     firebase_app_distribution(
-    app: "1:700524598035:android:6c4b750f888f402271c0e6",
+    app: ENV["FIREBASE_APP_TOKEN"],
     testers: "yousseframadan573@gmail.com, yousseframadanelqursh@gmail.com",
-    firebase_cli_token: "1//03fSMTiLSo8s8CgYIARAAGAMSNwF-L9IrYT5yrZBURV_O8cEq-goDUh2hYOXi_ghMlpyadumE5fUp2O0UVYGMMXtRmQZIe4hKjCA",
+    firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
     android_artifact_type: "APK",
     android_artifact_path: "../build/app/outputs/flutter-apk/app-production-release.apk",
     upload_timeout: 1600,
-    release_notes: "first distribution"
+    release_notes: "Link Github Actions with fastlane and distribute app on Firebase_App_Distribution"
   )
   end
 end
