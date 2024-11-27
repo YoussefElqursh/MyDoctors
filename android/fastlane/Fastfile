@@ -1,0 +1,18 @@
+default_platform(:android)
+
+platform :android do
+  desc "First lane for firebase distribution for MrDoctor app"
+  lane :push_firebase_app_distribution do
+    sh "flutter clean"
+    sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"
+    firebase_app_distribution(
+    app: ENV["FIREBASE_APP_TOKEN"],
+    testers: "yousseframadan573@gmail.com, yousseframadanelqursh@gmail.com",
+    firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+    android_artifact_type: "APK",
+    android_artifact_path: "../build/app/outputs/flutter-apk/app-production-release.apk",
+    upload_timeout: 1600,
+    release_notes: "Link Github Actions with fastlane and distribute app on Firebase_App_Distribution"
+  )
+  end
+end
