@@ -23,6 +23,9 @@ jobs:
         with:
           channel: stable
 
+      - name: Install dependencies
+        run: bundle install --jobs 4
+
       - name: Add Linux platform
         run: bundle lock --add-platform x86_64-linux
 
@@ -32,9 +35,6 @@ jobs:
           ruby-version: "3.3.6"
           bundler-cache: true
           working-directory: android
-
-      - name: Install dependencies
-        run: bundle install --jobs 4
 
       - name: Install Bundler
         run: gem install bundler
