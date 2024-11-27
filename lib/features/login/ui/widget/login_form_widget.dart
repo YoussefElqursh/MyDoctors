@@ -4,7 +4,6 @@ import 'package:doctorna/core/theme/colors.dart';
 import 'package:doctorna/core/theme/fonts.dart';
 import 'package:doctorna/core/widget/btn_widget.dart';
 import 'package:doctorna/core/widget/text_form_field_widget.dart';
-import 'package:doctorna/features/login/data/models/login_request_body.dart';
 import 'package:doctorna/features/login/logic/login_cubit.dart';
 import 'package:doctorna/features/login/ui/widget/password_validations.dart';
 import 'package:flutter/material.dart';
