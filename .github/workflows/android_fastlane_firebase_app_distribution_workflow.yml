@@ -23,7 +23,7 @@ jobs:
         with:
           channel: stable
 
-      - name: Set up Android SDK
+      - name: Install Android Command-Line Tools
         run: |
           sudo apt-get update
           sudo apt-get install -y unzip
@@ -31,16 +31,22 @@ jobs:
           mkdir -p $HOME/android-sdk/cmdline-tools
           unzip cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools
           mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
-          export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+
+      - name: Set Android SDK Environment Variables
+        run: |
+          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+          echo "PATH=$HOME/android-sdk/cmdline-tools/latest/bin:$HOME/android-sdk/platform-tools:$PATH" >> $GITHUB_ENV
+        shell: bash
 
       - name: Accept Android SDK Licenses
-        run: yes | sdkmanager --licenses
+        run: |
+          source $GITHUB_ENV
+          yes | sdkmanager --licenses
 
       - name: Install Android SDK Components
         run: |
+          source $GITHUB_ENV
           sdkmanager "platform-tools" "platforms;android-33" "build-tools;35.0.0"
-
 
       - name: Verify Flutter Environment
         run: flutter doctor -v
