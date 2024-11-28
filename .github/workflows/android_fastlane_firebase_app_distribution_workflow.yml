@@ -23,6 +23,10 @@ jobs:
         with:
           channel: stable
 
+      # Step 4: Verify Flutter setup
+      - name: Verify Flutter environment
+        run: flutter doctor
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -31,9 +35,6 @@ jobs:
           working-directory: android
 
       - name: Build and Distribute App
-        env:
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          FIREBASE_APP_TOKEN: ${{ secrets.FIREBASE_APP_TOKEN }}
         run: |
           bundle exec fastlane android push_firebase_app_distribution
         working-directory: android
