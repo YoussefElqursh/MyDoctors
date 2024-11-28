@@ -38,6 +38,7 @@ android {
         production {
             dimension "default"
             resValue "string", "app_name", "DocDoc"
+            applicationId "com.KMY.doctorna"
         }
         development {
             dimension "default"
